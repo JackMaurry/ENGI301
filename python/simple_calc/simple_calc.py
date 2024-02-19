@@ -17,9 +17,9 @@ operators = {
 
 def get_user_input():
     try:
-        number1 = float(input("Enter first number : "))
-        number2 = float(input("Enter second number : "))
-        op      = input("Enter function (valid values are +,-,*,/): ")
+        number1 = float(raw_input("Enter first number : "))
+        number2 = float(raw_input("Enter second number : "))
+        op      = raw_input("Enter function (valid values are +,-,*,/): ")
         
         func    = operators.get(op)
     except:
@@ -31,9 +31,9 @@ if __name__ == "__main__":
    
     Python_Version = sys.version_info[0]
     
-    if Python_Version == 2:
-        def input(prompt):
-            return raw_input(prompt)
+    if Python_Version == 3:
+        def raw_input(prompt):
+            return input(prompt)
     
     while True:
         (num1, num2, func) = get_user_input()
