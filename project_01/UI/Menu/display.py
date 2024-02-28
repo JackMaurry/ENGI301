@@ -56,11 +56,10 @@ class Display():
     select_time = None
     button     = None
     display    = None
-    
     # vars to be outputted to ShuffleOrder
-    Shuffle_Choice = None
-    Players = None
+    ShuffleChoice = None
     SBP = None
+    Players = None
     HandSelected = None
     
     def __init__(self, select_time=1.0, button="P2_2", i2c_bus=1, i2c_address=0x70):
@@ -68,13 +67,11 @@ class Display():
         self.select_time = select_time
         self.button     = BUTTON.Button(button)
         self.display    = HT16K33.HT16K33(i2c_bus, i2c_address)
-    
     # End def
 
     # Takes User Input on whether to do a randomized shuffle or user-modified shuffle
     def ShuffleMethod(self):
-        
-        self.Shuffle_Choice          = 0        # Shuffle method chosen
+        self.ShuffleChoice          = 0        # Shuffle method chosen
         button_press_time            = 0.0      # Time button was pressed (in seconds)
         
         self.display.text("SHUF")
@@ -82,10 +79,8 @@ class Display():
         button_press_time = self.button.get_last_press_duration()
         if (button_press_time < self.select_time):
                 self.display.text("RAND")
-
-    
+                
         while(button_press_time < 1.0):
-            
             # Wait for button press / release
             self.button.wait_for_press()
             # Get the press time
@@ -93,36 +88,37 @@ class Display():
 
             #MOVE 1 UP IN MENU SLOT
             if (self.button.is_pressed and button_press_time < 1.0):
-            
-                if (self.Shuffle_Choice == 0):
+                if (self.ShuffleChoice == 0):
                     self.display.text("INPT")
-                    self.Shuffle_Choice = 1
-                
+                    self.ShuffleChoice = 1
                 else:
                     self.display.text("RAND")
-                    self.Shuffle_Choice = 0
+                    self.ShuffleChoice = 0
         
-        print('Shuffle Method Chosen: ' + str(self.Shuffle_Choice))
-        
+        # output shuffle Method Chose
+        if (self.ShuffleChoice == 0):
+            print('Shuffle Method: Random')
+        else:
+            print('Shuffle Method: User-Defined')
 
-        if (self.Shuffle_Choice == 1):
+        # continue runthrough of menu
+        if (self.ShuffleChoice == 1):
             self.SmallBlindPosition()
-        
+        else:
+            self.Start()
     # End def
     
     # Takes User Input on where small blind position is located 
     def SmallBlindPosition(self):
-        
-        self.Shuffle_Choice          = 0        # Shuffle method chosen
+        self.SBP                     = 1        # slots away from small blind (left of user)
         button_press_time            = 0.0      # Time button was pressed (in seconds)
         
-        self.display.text("SHUF")
+        self.display.text("SBP")
         self.button.wait_for_press()
         button_press_time = self.button.get_last_press_duration()
         if (button_press_time < self.select_time):
-                self.display.text("RAND")
+                self.display.update(self.SBP)
 
-    
         while(button_press_time < 1.0):
             
             # Wait for button press / release
@@ -133,25 +129,96 @@ class Display():
             #MOVE 1 UP IN MENU SLOT
             if (self.button.is_pressed and button_press_time < 1.0):
             
-                if (self.Shuffle_Choice == 0):
-                    self.display.text("INPT")
-                    self.Shuffle_Choice = 1
+                if (self.SBP < 9):
+                    self.SBP +=1
+                    self.display.update(self.SBP)
                 
                 else:
-                    self.display.text("RAND")
-                    self.Shuffle_Choice = 0
+                    self.SBP = 1
+                    self.display.update(self.SBP)
         
-        print('Shuffle Method Chosen: ' + str(self.Shuffle_Choice))
-    """    
+        print('Small Blind Position: ' + str(self.SBP))
+        self.PlayersInHand()
+
+    # Takes user input to determine how many players are in the hand
     def PlayersInHand(self):
-    
-    def HandSelection(self):
+        self.Players                 = 2        # Players in hand
+        button_press_time            = 0.0      # Time button was pressed (in seconds)
         
+        self.display.text("PLAY")
+        self.button.wait_for_press()
+        button_press_time = self.button.get_last_press_duration()
+        if (button_press_time < self.select_time):
+                self.display.update(self.Players)
+
+        while(button_press_time < 1.0):
+            
+            # Wait for button press / release
+            self.button.wait_for_press()
+            # Get the press time
+            button_press_time = self.button.get_last_press_duration()
+
+            #MOVE 1 UP IN MENU SLOT
+            if (self.button.is_pressed and button_press_time < 1.0):
+            
+                if (self.Players < 9):
+                    self.Players +=1
+                    self.display.update(self.Players)
+                
+                else:
+                    self.Players = 2
+                    self.display.update(self.Players)
+        
+        print('# of Players: ' + str(self.Players))
+        self.HandSelection()
+        
+    # Takes user input to determine desired hand / runout 
+    def HandSelection(self):
+        self.HandSelected            = 0        # Hand Selected
+        button_press_time            = 0.0      # Time button was pressed (in seconds)
+        
+        self.display.text("HAND")
+        self.button.wait_for_press()
+        button_press_time = self.button.get_last_press_duration()
+        if (button_press_time < self.select_time):
+                self.display.text("AA")
+                
+        while(button_press_time < 1.0):
+            # Wait for button press / release
+            self.button.wait_for_press()
+            # Get the press time
+            button_press_time = self.button.get_last_press_duration()
+
+            #MOVE 1 UP IN MENU SLOT
+            if (self.button.is_pressed and button_press_time < 1.0):
+                if (self.HandSelected == 0):
+                    self.display.text("COOL")
+                    self.HandSelected = 1
+                else:
+                    self.display.text("AA")
+                    self.HandSelected = 0
+        
+        # print hand selected by user
+        if (self.HandSelected == 0):
+            print('Hand Selected: AA')
+        else:
+            print('Hand Selected: COOLER')
+        self.Start()
+    
+    # allows user to press button to begin shuffling process
     def Start(self):
-    """
+        button_press_time            = 0.0      # Time button was pressed (in seconds)
+        
+        self.display.text("STRT")
+        self.button.wait_for_press()
+        button_press_time = self.button.get_last_press_duration()
+        if (button_press_time < self.select_time):
+                self.display.text("HOLD")
+                """RUN THE FULL AUTOSHUFFLER SCRIPT"""
+
+
 
     def cleanup(self):
-        """Cleanup the hardware components."""
         # Set Display to something unique to show program is complete
         self.display.text("ERR")
     # End def
