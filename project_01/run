@@ -34,15 +34,14 @@
 # Run People Counter
 # 
 # --------------------------------------------------------------------------
-cd /var/lib/cloud9/ENGI301/project_1/UI/Menu
+cd /var/lib/cloud9/ENGI301/project_1
 
-./pin_config.sh
+./UI/Menu/pin_config.sh
 
 dirs=(
     '/var/lib/cloud9/ENGI301/python/ht16k33:'
     '/var/lib/cloud9/ENGI301/python/button'
 )
 
-
-PYTHONPATH=$(IFS=; echo "${dirs[*]}") python3 display.py
+PYTHONPATH=$(IFS=; echo "${dirs[*]}") python3 ShuffleOrder.py
 

@@ -1,29 +1,19 @@
 import random
 
-# Will run segmented display and take in menu button presses
-class Menu:
-    
-    #FOLLOWING ITEMS WILL BE OBTAINED FROM USER
-    Shuffle_Choice = 1
-    Players = 6
-    SBP = 2
-    HandSelected = 'COOL'
-    
-    def __init__(self):
-        pass
-    
-    def getall(self):
-        return self.Shuffle_Choice, self.Players, self.SBP, self.HandSelected
+import sys
+sys.path.append("UI/Menu")
+import display
 
 # Determines the order of the shuffle for the wheel servo to move between slots
 class ShuffleOrder:
-    Slots = []
     
-    def __init__(self, Shuffle_Choice, Players, SBP, HandSelected):
-        self.Shuffle_Choice = Shuffle_Choice
+    
+    def __init__(self, ShuffleChoice, Players, SBP, HandSelected):
+        self.ShuffleChoice = ShuffleChoice
         self.Players = Players
         self.SBP = SBP
         self.HandSelected = HandSelected
+        self.Slots = []
    
     def Random_Shuffle(self):
         #Create array with numbers 1-52
@@ -46,7 +36,7 @@ class ShuffleOrder:
         self.Slots[Ace2-1] = 'A2'  
         
         # determining slots to place King Markers (if requested by user)
-        if self.HandSelected == 'COOL':
+        if self.HandSelected == 1:
             Player_W_KK = random.randint(1,self.Players-1) 
             print(Player_W_KK)
       
@@ -65,38 +55,23 @@ class ShuffleOrder:
                 self.Slots[King2-1] = 'K2'
    
         #randomize positions of array
-        random.shuffle(self.Slots) 
+        #random.shuffle(self.Slots) 
        
         print(self.Slots)
                  
         
-# If modified shuffle desired, takes photos of each card and determines location
-#class ImageProcessing():  
-    
-# Uses servo 1 and shuffle order data to move slotted wheel to correct position
-#class WheelAdjustment():
-    
-# Uses servo 2 to eject card into the slotted wheel
-#class CardEjection():
-  
-# uses servo 1 to funnel cards through slit
-#class DeckRecollection():
-    
 # ------------------------------------------------------------------   
 # MAIN SCRIPT
 
-# Creating an instance of the Menu Class
-UserInput = Menu()
+# Creating an instance of the Display Class
+Player_Menu = display.Display()
 
-# Creating an array to store all variables within the Menu class
-menuall=UserInput.getall()
 
 # Creating an instance of the ShuffleOrder Class
-UserShufflerOrder = ShuffleOrder(menuall[0],menuall[1],menuall[2],menuall[3])
+UserShufflerOrder = ShuffleOrder(Player_Menu.ShuffleChoice,Player_Menu.SBP,Player_Menu.Players,Player_Menu.HandSelected)
 
 # Running either shuffling method from ShuffleOrder (depending on user input) 
-if menuall[0] == 0:
+if Player_Menu.ShuffleChoice == 0:
     UserShufflerOrder.Random_Shuffle()
-
-if menuall[0] == 1:
+else:
     UserShufflerOrder.Modified_Shuffle()

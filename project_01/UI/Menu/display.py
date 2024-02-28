@@ -57,18 +57,34 @@ class Display():
     button     = None
     display    = None
     # vars to be outputted to ShuffleOrder
-    ShuffleChoice = None
-    SBP = None
-    Players = None
-    HandSelected = None
+
     
     def __init__(self, select_time=1.0, button="P2_2", i2c_bus=1, i2c_address=0x70):
         """ Initialize variables and set up display """
         self.select_time = select_time
         self.button     = BUTTON.Button(button)
         self.display    = HT16K33.HT16K33(i2c_bus, i2c_address)
-    # End def
+        
+        self.ShuffleChoice = None
+        self.SBP = None
+        self.Players = None
+        self.HandSelected = None
+        
+        
+        print("Program Start")
 
+        # Create instantiation of the display 
+        try:
+            # Run the display
+            self.ShuffleMethod()
+
+        except KeyboardInterrupt:
+            # Clean up hardware when exiting
+            self.cleanup()
+    
+        print("Program Complete")
+        # End def
+        
     # Takes User Input on whether to do a randomized shuffle or user-modified shuffle
     def ShuffleMethod(self):
         self.ShuffleChoice          = 0        # Shuffle method chosen
@@ -216,8 +232,6 @@ class Display():
                 self.display.text("HOLD")
                 """RUN THE FULL AUTOSHUFFLER SCRIPT"""
 
-
-
     def cleanup(self):
         # Set Display to something unique to show program is complete
         self.display.text("ERR")
@@ -228,20 +242,4 @@ class Display():
 # ------------------------------------------------------------------------
 # Main script
 # ------------------------------------------------------------------------
-
-if __name__ == '__main__':
-
-    print("Program Start")
-
-    # Create instantiation of the display 
-    Player_Menu = Display()
-    try:
-        # Run the display
-        Player_Menu.ShuffleMethod()
-
-    except KeyboardInterrupt:
-        # Clean up hardware when exiting
-        Player_Menu.cleanup()
-
-    print("Program Complete")
 
