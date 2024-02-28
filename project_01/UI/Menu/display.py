@@ -1,6 +1,6 @@
 """
 --------------------------------------------------------------------------
-People Counter
+Display And Menu
 --------------------------------------------------------------------------
 License:   
 Copyright 2023 <Jack Maurry>
@@ -48,85 +48,115 @@ import Adafruit_BBIO.GPIO as GPIO
 import ht16k33 as HT16K33
 import button as BUTTON
 
-
-# ------------------------------------------------------------------------
-# Constants
-# ------------------------------------------------------------------------
-
-# None
-
-# ------------------------------------------------------------------------
-# Global variables
-# ------------------------------------------------------------------------
-
-# None
-
 # ------------------------------------------------------------------------
 # Functions / Classes
 # ------------------------------------------------------------------------
 
-class PeopleCounter():
-    """ People Counter """
-    reset_time = None
+class Display():
+    select_time = None
     button     = None
     display    = None
     
-    def __init__(self, reset_time=2.0, button="P2_2", i2c_bus=1, i2c_address=0x70):
+    # vars to be outputted to ShuffleOrder
+    Shuffle_Choice = None
+    Players = None
+    SBP = None
+    HandSelected = None
+    
+    def __init__(self, select_time=1.0, button="P2_2", i2c_bus=1, i2c_address=0x70):
         """ Initialize variables and set up display """
-        self.reset_time = reset_time
+        self.select_time = select_time
         self.button     = BUTTON.Button(button)
         self.display    = HT16K33.HT16K33(i2c_bus, i2c_address)
+    
+    # End def
+
+    # Takes User Input on whether to do a randomized shuffle or user-modified shuffle
+    def ShuffleMethod(self):
         
-        self._setup()
-    
-    # End def
-    
-    
-    def _setup(self):
-        """Setup the hardware components."""
-        # Initialize Display
-        self.display.clear()
-
-    # End def
-
-
-    def run(self):
-        """Execute the main program."""
-        people_count                 = 0        # Number of people to be displayed
+        self.Shuffle_Choice          = 0        # Shuffle method chosen
         button_press_time            = 0.0      # Time button was pressed (in seconds)
         
-        while(1):
+        self.display.text("SHUF")
+        self.button.wait_for_press()
+        button_press_time = self.button.get_last_press_duration()
+        if (button_press_time < self.select_time):
+                self.display.text("RAND")
+
+    
+        while(button_press_time < 1.0):
             
             # Wait for button press / release
             self.button.wait_for_press()
-
             # Get the press time
             button_press_time = self.button.get_last_press_duration()
 
-            # Compare time to increment or reset people_count
-            if (button_press_time < self.reset_time):
-                people_count += 1
-            # Update the display
-            else:
-                people_count = 0
-           
-            self.display.update(people_count)
-    # End def
+            #MOVE 1 UP IN MENU SLOT
+            if (self.button.is_pressed and button_press_time < 1.0):
+            
+                if (self.Shuffle_Choice == 0):
+                    self.display.text("INPT")
+                    self.Shuffle_Choice = 1
+                
+                else:
+                    self.display.text("RAND")
+                    self.Shuffle_Choice = 0
+        
+        print('Shuffle Method Chosen: ' + str(self.Shuffle_Choice))
+        
 
+        if (self.Shuffle_Choice == 1):
+            self.SmallBlindPosition()
+        
+    # End def
+    
+    # Takes User Input on where small blind position is located 
+    def SmallBlindPosition(self):
+        
+        self.Shuffle_Choice          = 0        # Shuffle method chosen
+        button_press_time            = 0.0      # Time button was pressed (in seconds)
+        
+        self.display.text("SHUF")
+        self.button.wait_for_press()
+        button_press_time = self.button.get_last_press_duration()
+        if (button_press_time < self.select_time):
+                self.display.text("RAND")
+
+    
+        while(button_press_time < 1.0):
+            
+            # Wait for button press / release
+            self.button.wait_for_press()
+            # Get the press time
+            button_press_time = self.button.get_last_press_duration()
+
+            #MOVE 1 UP IN MENU SLOT
+            if (self.button.is_pressed and button_press_time < 1.0):
+            
+                if (self.Shuffle_Choice == 0):
+                    self.display.text("INPT")
+                    self.Shuffle_Choice = 1
+                
+                else:
+                    self.display.text("RAND")
+                    self.Shuffle_Choice = 0
+        
+        print('Shuffle Method Chosen: ' + str(self.Shuffle_Choice))
+    """    
+    def PlayersInHand(self):
+    
+    def HandSelection(self):
+        
+    def Start(self):
+    """
 
     def cleanup(self):
         """Cleanup the hardware components."""
-        
         # Set Display to something unique to show program is complete
-        self.display.text("END")
-        
-        # Button does not need any cleanup code
-        
+        self.display.text("ERR")
     # End def
 
 # End class
-
-
 
 # ------------------------------------------------------------------------
 # Main script
@@ -136,15 +166,15 @@ if __name__ == '__main__':
 
     print("Program Start")
 
-    # Create instantiation of the people counter
-    counter = PeopleCounter()
+    # Create instantiation of the display 
+    Player_Menu = Display()
     try:
-        # Run the people counter
-        counter.run()
+        # Run the display
+        Player_Menu.ShuffleMethod()
 
     except KeyboardInterrupt:
         # Clean up hardware when exiting
-        counter.cleanup()
+        Player_Menu.cleanup()
 
     print("Program Complete")
 

@@ -1,9 +1,9 @@
 #!/bin/bash
 # --------------------------------------------------------------------------
-# People Counter - Run Script
+# People Counter - Configure Pins
 # --------------------------------------------------------------------------
 # License:   
-# Copyright 2020 <Jack Maurry>
+# Copyright 2023 <Jack Maurry>
 # 
 # Redistribution and use in source and binary forms, with or without 
 # modification, are permitted provided that the following conditions are met:
@@ -31,18 +31,15 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # --------------------------------------------------------------------------
 # 
-# Run People Counter
+# Configure pins for digital people counter:
+#   - I2C1
+#   - Button
 # 
 # --------------------------------------------------------------------------
-cd /var/lib/cloud9/ENGI301/python/People_Counter
 
-./configure_pins.sh
+# I2C1
+config-pin P2_09 i2c
+config-pin P2_11 i2c
 
-dirs=(
-    '/var/lib/cloud9/ENGI301/python/ht16k33:'
-    '/var/lib/cloud9/ENGI301/python/button'
-)
-
-
-PYTHONPATH=$(IFS=; echo "${dirs[*]}") python3 people_counter.py
-
+# Button
+config-pin P2_02 gpio

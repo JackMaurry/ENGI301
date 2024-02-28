@@ -34,9 +34,9 @@
 # Run People Counter
 # 
 # --------------------------------------------------------------------------
-cd /var/lib/cloud9/ENGI301/python/People_Counter
+cd /var/lib/cloud9/ENGI301/project_1/UI/Menu
 
-./configure_pins.sh
+./pin_config.sh
 
 dirs=(
     '/var/lib/cloud9/ENGI301/python/ht16k33:'
@@ -44,5 +44,5 @@ dirs=(
 )
 
 
-PYTHONPATH=$(IFS=; echo "${dirs[*]}") python3 people_counter.py
+PYTHONPATH=$(IFS=; echo "${dirs[*]}") python3 display.py
 

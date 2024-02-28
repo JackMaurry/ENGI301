@@ -7,7 +7,7 @@ class Menu:
     Shuffle_Choice = 1
     Players = 6
     SBP = 2
-    HandSelected = 'AA'
+    HandSelected = 'COOL'
     
     def __init__(self):
         pass
@@ -65,7 +65,7 @@ class ShuffleOrder:
                 self.Slots[King2-1] = 'K2'
    
         #randomize positions of array
-        #random.shuffle(self.Slots) 
+        random.shuffle(self.Slots) 
        
         print(self.Slots)
                  
