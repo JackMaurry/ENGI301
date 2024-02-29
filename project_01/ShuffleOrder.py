@@ -38,7 +38,7 @@ class ShuffleOrder:
         # determining slots to place King Markers (if requested by user)
         if self.HandSelected == 1:
             Player_W_KK = random.randint(1,self.Players-1) 
-            print(Player_W_KK)
+            print('Player W/ KK: ' + str(Player_W_KK))
       
             if Player_W_KK >= self.SBP:
                 # NUMBERS FOR KING1 and KING2 RESEMBLE THEIR SLOT # (WILL USE FOR SERVO)
@@ -55,7 +55,7 @@ class ShuffleOrder:
                 self.Slots[King2-1] = 'K2'
    
         #randomize positions of array
-        #random.shuffle(self.Slots) 
+        random.shuffle(self.Slots) 
        
         print(self.Slots)
                  
