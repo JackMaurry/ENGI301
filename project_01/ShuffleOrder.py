@@ -8,7 +8,7 @@ import display
 class ShuffleOrder:
     
     
-    def __init__(self, ShuffleChoice, Players, SBP, HandSelected):
+    def __init__(self, ShuffleChoice, SBP, Players, HandSelected):
         self.ShuffleChoice = ShuffleChoice
         self.Players = Players
         self.SBP = SBP
@@ -55,18 +55,15 @@ class ShuffleOrder:
                 self.Slots[King2-1] = 'K2'
    
         #randomize positions of array
-        random.shuffle(self.Slots) 
+        #random.shuffle(self.Slots) 
        
         print(self.Slots)
-                 
         
 # ------------------------------------------------------------------   
 # MAIN SCRIPT
 
 # Creating an instance of the Display Class
 Player_Menu = display.Display()
-
-
 # Creating an instance of the ShuffleOrder Class
 UserShufflerOrder = ShuffleOrder(Player_Menu.ShuffleChoice,Player_Menu.SBP,Player_Menu.Players,Player_Menu.HandSelected)
 
