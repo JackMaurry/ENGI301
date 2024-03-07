@@ -21,7 +21,7 @@ Player_Menu = display.Display()
 # Creating an instance of the ShuffleOrder Class
 User_Shuffler_Order = ShuffleOrder(Player_Menu.ShuffleChoice,Player_Menu.SBP,Player_Menu.Players,Player_Menu.HandSelected)
 
-# Running either shuffling method from ShuffleOrder (depending on user input) 
+# Running one of the shuffling methods from ShuffleOrder (depending on user input from the display) 
 if Player_Menu.ShuffleChoice == 0:
     User_Shuffler_Order.Random_Shuffle()
 else:
@@ -36,6 +36,7 @@ Servo_Movements = WheelServo.WheelMovement(
     User_Shuffler_Order.King2
 )
  
+# running the ReadSlots method from WheelServo
 Servo_Movements.ReadSlots()   
  
 
