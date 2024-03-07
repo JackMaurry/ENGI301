@@ -1,6 +1,6 @@
 #!/bin/bash
 # --------------------------------------------------------------------------
-# People Counter - Configure Pins
+# Autoshuffler - Configure Pins
 # --------------------------------------------------------------------------
 # License:   
 # Copyright 2023 <Jack Maurry>
@@ -31,7 +31,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # --------------------------------------------------------------------------
 # 
-# Configure pins for digital people counter:
+# Configure pins for autoshuffler menu:
 #   - I2C1
 #   - Button
 # 
