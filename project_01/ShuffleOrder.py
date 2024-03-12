@@ -46,14 +46,14 @@ class ShuffleOrder:
             if Player_W_KK >= self.SBP:
                 self.King1 = (Player_W_KK - self.SBP) + 1
                 self.King2 = ((Player_W_KK - self.SBP) + self.Players) + 1
-                self.Slots[self.King1-1] = 'K1'
-                self.Slots[self.King2-1] = 'K2'            
+                self.Slots[self.King1 - 1] = 'K1'
+                self.Slots[self.King2 - 1] = 'K2'            
             
             if Player_W_KK < self.SBP:
-                King1 = (self.Players - (self.SBP - Player_W_KK)) + 1
-                King2 = (2*self.Players - (self.SBP - Player_W_KK)) + 1
-                self.Slots[self.King1-1] = 'K1'
-                self.Slots[self.King2-1] = 'K2'
+                self.King1 = (self.Players - (self.SBP - Player_W_KK)) + 1
+                self.King2 = (2*self.Players - (self.SBP - Player_W_KK)) + 1
+                self.Slots[self.King1 - 1] = 'K1'
+                self.Slots[self.King2 - 1] = 'K2'
    
         #randomize positions of array
         #random.shuffle(self.Slots) WILL COMMENT BACK IN
