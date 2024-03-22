@@ -57,7 +57,7 @@ class ShuffleOrder:
                 self.Slots[self.King2 - 1] = 'K2'
    
         #randomize positions of array
-        #random.shuffle(self.Slots) WILL COMMENT BACK IN
+        random.shuffle(self.Slots) 
        
         print(self.Slots)
         

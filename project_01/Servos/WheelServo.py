@@ -1,7 +1,6 @@
 
 class WheelMovement:
-    
-    
+
     def __init__(self, Slots, Ace1, Ace2, King1, King2):
         self.Slots = Slots
         self.Ace1 = Ace1
@@ -27,29 +26,30 @@ class WheelMovement:
                 self.CurrentSlot = self.Slots[i-1] 
                 self.SlotDifference = self.CurrentSlot - self.PreviousSlot
                 
+                # determining slot rotations required 
                 if self.SlotDifference >= 0:
                     self.SlotMovement = self.SlotDifference
-                   
                 else:
                     self.SlotMovement = 52 + self.SlotDifference
                 
                 self.RotationValues.append(self.SlotMovement)
         
-        print(self.RotationValues)
-        "CALCULATE ROTATIONAL VALUE TO SEND TO SERVO"
+            print(self.RotationValues)
+            "ROTATIONAL SLOT VALUES TO SEND TO SERVO"
             
         # loop for user-defined shuffle (AA and COOLER)
-        if (self.Ace1 != None):
+        else:
             self.CurrentSlot = 1
             for i in range (1,53):
-
                 "CALL CAMERA CODE TO TAKE PHOTO"
                 "CALL OCR CODE TO ANALYZE PHOTO --> Outputted letter/number = OCR_Output"
+                OCR_Output = 'A'
+                
+                self.PreviousSlot = self.CurrentSlot
                 
                 # Alters card placement order if Ace is found
                 if OCR_Output == 'A':
-                    self.PreviousSlot = self.CurrentSlot
-                    
+                
                     #determining whether detected card should go in Ace1 slot or Ace2 slot
                     if self.AceCounter == 2:
                         self.CurrentSlot = self.Ace2
@@ -59,19 +59,20 @@ class WheelMovement:
                         self.CurrentSlot = self.Ace1
                         self.AceCounter = self.AceCounter + 1
 
+                    # determining slot rotations required 
                     self.SlotDifference = self.CurrentSlot - self.PreviousSlot
-                
                     if self.SlotDifference > 0:
                         self.SlotMovement = self.SlotDifference
-                   
                     else:
                         self.SlotMovement = 52 - self.CurrentSlot
-
+                    
+                #appending slot rotation value    
+                self.RotationValues.append(self.SlotMovement)
+                
                 # Alters card placement order if Ace is found
                 if OCR_Output == 'K':
-                    self.PreviousSlot = self.CurrentSlot
-                    
-                    #determining whether detected card is Ace1 or Ace2
+
+                    #determining whether detected card is King1 or King2
                     if self.KingCounter == 2:
                         self.CurrentSlot = self.King2
                         self.KingCounter = self.KingCounter + 1
@@ -81,16 +82,18 @@ class WheelMovement:
                         self.KingCounter = self.KingCounter + 1
 
                     self.SlotDifference = self.CurrentSlot - self.PreviousSlot
-                
+                    
+                    # determining slot rotations required 
                     if self.SlotDifference > 0:
                         self.SlotMovement = self.SlotDifference
-                   
                     else:
                         self.SlotMovement = 52 - self.CurrentSlot
                 
+                #appending slot rotation value    
+                self.RotationValues.append(self.SlotMovement)
+
                 # scenario if non-user defined card is detected (no Ace/King)
                 else:
-                    self.PreviousSlot = self.CurrentSlot
                     self.CurrentSlot = self.Slots[i-1] 
                     self.SlotDifference = self.CurrentSlot - self.PreviousSlot
                 
@@ -99,8 +102,11 @@ class WheelMovement:
                    
                     else:
                         self.SlotMovement = 52 - self.CurrentSlot
-
-            
+                
+                #appending slot rotation value    
+                self.RotationValues.append(self.SlotMovement)
+        
+            print(self.RotationValues)            
             
 
 
