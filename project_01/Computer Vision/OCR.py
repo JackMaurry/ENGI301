@@ -6,7 +6,8 @@ from pytesseract import Output
 from PIL import Image
 import numpy as np
 
-img_path1 = 'Images/RealPhotoTestImg.png'
+img_path1 = 'Images/Ace_TestImg.png'
+#img_path1 = 'Images/RealPhotoTestImg.png'
 #img_path1 = 'Images/Jack_Spades_TestImg.png'
 #img_path1 = 'Images/test8.png'
 
@@ -19,7 +20,7 @@ Image.fromarray(img).save("Images/out.png") # verifies that the binary output is
 # Note: conversion is really important for increasing result quality in pytesseract
 text = pytesseract.image_to_string(img, lang='eng', config='--psm 10') 
 # uses the psm 10 argument to specify "sparse text" which will recognize individual chars
-print("Before jibberish filter:", text)
+#print("Before jibberish filter:", text)
  # jibberish filter for good measure. If the output of pytesseract is "1O" or "8." or anything weird it'll try to handle it.
 if len(text) >= 2 and text[:2] in ("10", "1O"):
     text = "10" # makes the text 10
