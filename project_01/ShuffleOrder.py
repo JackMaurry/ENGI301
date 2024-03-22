@@ -25,7 +25,7 @@ class ShuffleOrder:
         for i in range (1,53):
             self.Slots.append(i)
         #randomize positions of array
-        #random.shuffle(self.Slots)
+        random.shuffle(self.Slots)
         print(self.Slots)
     
     def Modified_Shuffle(self):
