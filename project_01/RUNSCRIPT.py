@@ -36,9 +36,11 @@ Servo_Movements = WheelServo.WheelMovement(
     User_Shuffler_Order.King2
 )
  
-# running the ReadSlots method from WheelServo
-Servo_Movements.ReadSlots()   
- 
+# running the ReadSlots methods from WheelServo (depending on user input)
+if Player_Menu.ShuffleChoice == 0:
+    Servo_Movements.ReadRandomSlots()   
+else:
+    Servo_Movements.ReadModifiedSlots()   
 
 
 
