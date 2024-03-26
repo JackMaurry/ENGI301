@@ -15,6 +15,7 @@ class WheelMovement:
         self.AceCounter = 0
         self.KingCounter = 0
         self.RotationValues = []
+        self.FinalRotation = None
 
     # Turns random slot order into required wheel rotation to reach each slot
     def ReadRandomSlots(self):
@@ -31,7 +32,8 @@ class WheelMovement:
                 self.SlotMovement = 52 + self.SlotDifference
             
             self.RotationValues.append(self.SlotMovement)
-    
+        
+        
         print(self.RotationValues)
         "ROTATIONAL SLOT VALUES TO SEND TO SERVO"
 
@@ -42,13 +44,10 @@ class WheelMovement:
             
             "CALL CAMERA CODE TO TAKE PHOTO"
             "CALL OCR CODE TO ANALYZE PHOTO --> Outputted letter/number = OCR_Output"
+            
             OCR_Output = 'A' #placeholder
-            
-            if self.AceCounter == 2:
-                OCR_Output = 'K'
-                
+
             self.PreviousSlot = self.CurrentSlot
-            
             # Alters card placement order if Ace is found 
             if OCR_Output == 'A' and self.AceCounter < 2:
                 
@@ -111,9 +110,15 @@ class WheelMovement:
                 
         print(self.RotationValues)        
         
+        # final rotation required to position wheel for proper deck order upon clockwise rotation of wheel
+        # This will make the cards fall through a small slit in the card retainment section
+        if self.Slots[-1] > 0 and self.Slots[-1] < 34:
+            self.FinalRotation = 33 - self.Slots[-1]
+        else:
+            self.FinalRotation = 52 - (self.Slots[-1] - 33)
 
-
-
+        
+        print('slot rotations required to prep for deck removal: ' + str(self.FinalRotation))
 
     
             
