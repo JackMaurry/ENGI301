@@ -35,7 +35,7 @@ class WheelMovement:
         
             """SEND CURRENT SLOT ROTATIONS REQUIRED TO WHEELSERVO"""
             
-        print('\nCCW slot rotations required per card ejection (starting at slot #1:)')
+        print('\nCW slot rotations required per card ejection (starting at slot #1:)')
         print(self.RotationValues)
 
 
@@ -48,6 +48,7 @@ class WheelMovement:
             "CALL OCR CODE TO ANALYZE PHOTO --> Outputted letter/number = OCR_Output"
             
             OCR_Output = 'A' #placeholder
+           
 
             self.PreviousSlot = self.CurrentSlot
             # Alters card placement order if Ace is found 
@@ -110,19 +111,14 @@ class WheelMovement:
                 #appending slot rotation value    
                 self.RotationValues.append(self.SlotMovement)
                 
-        print('\nCCW slot rotations required per card ejection:')
+        print('\nCW slot rotations required per card ejection:')
         print(self.RotationValues)        
         
-        # final rotation required to position wheel for proper deck order upon clockwise rotation of wheel
+        # final rotation required to position wheel for proper deck order upon counter clockwise rotation of wheel
         # This will make the cards fall through a small slit in the card retainment section
-        if self.Slots[-1] > 0 and self.Slots[-1] < 34:
-            self.FinalRotation = 33 - self.Slots[-1]
-        else:
-            self.FinalRotation = 52 - (self.Slots[-1] - 33)
+        self.FinalRotation = 52 - self.Slots[-1]
+        
+
 
         
-        print('\nCCW slot rotations required to prep for deck removal: ' + str(self.FinalRotation))
-
-    
-            
-            
+        print('\nCW slot rotations required to prep for deck removal: ' + str(self.FinalRotation))
