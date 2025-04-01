@@ -8,8 +8,7 @@ import display
 
 #sys.path.append("Computer Vision")
 
-sys.path.append("Servos")
-import WheelServo
+import WheelRotationSolver
 #import CardEjectionServo
 
 
@@ -28,7 +27,7 @@ else:
     User_Shuffler_Order.Modified_Shuffle()
     
 # Creating an instance of the WheelMovement class
-Servo_Movements = WheelServo.WheelMovement(
+Servo_Movements = WheelRotationSolver.WheelMovement(
     User_Shuffler_Order.Slots, 
     User_Shuffler_Order.Ace1, 
     User_Shuffler_Order.Ace2, 

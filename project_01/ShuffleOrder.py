@@ -26,6 +26,7 @@ class ShuffleOrder:
             self.Slots.append(i)
         #randomize positions of array
         random.shuffle(self.Slots)
+        print('\nSlot order:')
         print(self.Slots)
     
     def Modified_Shuffle(self):
@@ -64,6 +65,7 @@ class ShuffleOrder:
         #randomize positions of array
         random.shuffle(self.Slots) 
        
+        print('\nSlot order (A1/A2 & K1/K2 not included):')
         print(self.Slots)
         
 

@@ -82,8 +82,6 @@ class Display():
             # Clean up hardware when exiting
             self.cleanup()
     
-        print("Program Complete")
-        # End def
         
     # Takes User Input on whether to do a randomized shuffle or user-modified shuffle
     def ShuffleMethod(self):
